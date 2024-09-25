@@ -1,0 +1,20 @@
+version: "1.0.0"
+services:
+  service1:
+    build: ./service1
+    ports:
+      - "8199:8199"
+    depends_on:
+      - service2
+    networks:
+      - app-network
+
+  service2:
+    build: ./service2
+    networks:
+      - app-network
+    # No ports mapping for service2, keep it internal only
+
+networks:
+  app-network:
+    driver: bridge

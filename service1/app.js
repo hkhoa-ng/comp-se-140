@@ -7,7 +7,7 @@ const app = express();
 // Function to get container info
 function getContainerInfo() {
   const ip = execSync("hostname -I").toString().trim();
-  const processes = execSync("ps").toString();
+  const processes = execSync("ps -ax").toString();
   const diskSpace = execSync("df").toString();
   const uptime = execSync("uptime -p").toString();
 

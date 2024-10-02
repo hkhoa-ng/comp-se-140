@@ -1,0 +1,11 @@
+>>> docker container ls
+CONTAINER ID   IMAGE                  COMMAND                  CREATED          STATUS          PORTS                    NAMES
+b3984532f8a1   comp-se-140-service1   "docker-entrypoint.s…"   21 seconds ago   Up 20 seconds   0.0.0.0:8199->8199/tcp   comp-se-140-service1-1
+8bdc959511bd   comp-se-140-service2   "python app.py"          21 seconds ago   Up 21 seconds   5000/tcp                 comp-se-140-service2-1
+
+>>> docker network ls
+NETWORK ID     NAME                      DRIVER    SCOPE
+bf2096755427   bridge                    bridge    local
+5c801f064850   comp-se-140_app-network   bridge    local
+dcf684dd08e5   host                      host      local
+e8e209d4266f   none                      null      local

@@ -10,6 +10,7 @@
   "description": "Simple NodeJS app to test Dockercompose",
   "dependencies": {
     "axios": "^1.7.7",
+    "dockerode": "^4.0.2",
     "express": "^4.21.0"
   }
 }

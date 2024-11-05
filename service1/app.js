@@ -2,6 +2,10 @@ const express = require("express");
 const { execSync } = require("child_process");
 const axios = require("axios");
 
+// Using dockerode to interact with Docker API
+const Docker = require("dockerode");
+const docker = new Docker({ socketPath: "/var/run/docker.sock" });
+
 const app = express();
 
 // Function to get container info
@@ -27,12 +31,36 @@ async function getService2Info() {
     .catch((err) => err.message);
 }
 
+function delay(ms) {
+  console.log(`Service 1 is sleeping for ${ms / 1000} seconds...`);
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 // Route to get container info
-app.get("/", async function (_, res) {
+app.get("/api", async function (_, res) {
   res.json({
     "Service 1 Info": getContainerInfo(),
     "Service 2 Info": await getService2Info(),
   });
+
+  // Sleep for 2 seconds
+  await delay(2000);
+});
+
+// Route to stop all containers
+app.get("/stop", (_, res) => {
+  try {
+    res.json({ message: "Stopping all containers..." });
+    docker.listContainers(function (err, containers) {
+      containers.forEach(function (containerInfo) {
+        docker.getContainer(containerInfo.Id).stop(() => {
+          console.log(`Successfully stopped all containers!`);
+        });
+      });
+    });
+  } catch (error) {
+    res.json({ message: `Failed to stop containers: ${error}` });
+  }
 });
 
 // Expose the app on port 8199

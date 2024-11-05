@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Service Interface</title>
+  </head>
+  <body>
+    <h1>Service Load-Balancer with nginx</h1>
+    <button id="request-btn">REQUEST</button>
+    <textarea
+      id="response-text"
+      rows="10"
+      cols="50"
+      placeholder="Response will appear here..."
+    ></textarea>
+    <button id="stop-btn">STOP</button>
+
+    <script>
+      document
+        .getElementById("request-btn")
+        .addEventListener("click", async () => {
+          try {
+            const response = await fetch("http://localhost:8198/api", {
+              method: "GET",
+              credentials: "include",
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            document.getElementById("response-text").value = JSON.stringify(
+              data,
+              null,
+              2
+            );
+          } catch (error) {
+            document.getElementById("response-text").value = "Error: " + error;
+          }
+        });
+
+      document
+        .getElementById("stop-btn")
+        .addEventListener("click", async () => {
+          try {
+            const response = await fetch("http://localhost:8198/stop", {
+              method: "GET",
+              credentials: "include",
+            });
+
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            document.getElementById("response-text").value = JSON.stringify(
+              data,
+              null,
+              2
+            );
+          } catch (error) {
+            console.log(`Error while stopping the service: ${error}`);
+            document.getElementById("response-text").value = "Error: " + error;
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,5 +1,6 @@
-
 FROM node:20
+
+USER root
 
 WORKDIR /app
 
@@ -9,7 +10,6 @@ RUN npm install
 
 COPY . .
 
-# Expose port 8199
 EXPOSE 8199
 
 CMD ["node", "app.js"]

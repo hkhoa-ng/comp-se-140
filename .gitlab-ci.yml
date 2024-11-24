@@ -19,4 +19,10 @@ deploy:
   stage: deploy
   script:
     - echo "Deploying the application..."
+    - pwd
+    - mkdir -p nginx
+    # Print working directory and list files for debugging
+    - pwd
+    - ls -la
+    - ls -la nginx/
     - docker-compose up -d

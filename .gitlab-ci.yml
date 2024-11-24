@@ -1,0 +1,22 @@
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo "Building the application..."
+    - docker-compose build
+
+test:
+  stage: test
+  script:
+    - echo "Running tests..."
+    # Add your test execution script here
+
+deploy:
+  stage: deploy
+  script:
+    - echo "Deploying the application..."
+    - docker-compose up -d

@@ -1,0 +1,532 @@
+{
+	"info": {
+		"_postman_id": "579c52ec-ae7c-4945-adb0-51f97e03b1af",
+		"name": "API Tests",
+		"description": "Testing the nginx's API Gateway REST API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19227445"
+	},
+	"item": [
+		{
+			"name": "PUT /state - INIT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Response is OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response set state to INIT\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Global state set to INIT\"); ",
+							"});",
+							"",
+							"const token = pm.response.headers.get(\"Authorization\")?.replace(\"Bearer \", \"\");",
+							"if (token) {",
+							"    pm.environment.set(\"jwtToken\", token);",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "username",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "INIT"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/state",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "Test the PUT /state endpoint with to INIT. Provide with username + password for credentials. After this request, JWT returned will be used instead."
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /state - PAUSED",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response set state to PAUSED\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Global state set to PAUSED\"); ",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwtToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "PAUSED"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/state",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "Test the PUT /state endpoint with to PAUSED. Auth with JWT."
+			},
+			"response": []
+		},
+		{
+			"name": "GET /state when PAUSED",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is Service Unavailable\", function () {",
+							"    pm.response.to.have.status(503);",
+							"});",
+							"pm.test(\"Response show error message\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Service is paused\"); ",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/state",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "Test the GET /state endpoint. No auth needed."
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /state - RUNNING",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response set state to RUNNING\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Global state set to RUNNING\"); ",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwtToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "RUNNING"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/state",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "Test the PUT /state endpoint with to PAUSED. Auth with JWT."
+			},
+			"response": []
+		},
+		{
+			"name": "GET /state when RUNNING",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Get the current state: RUNNING\", function () {",
+							"    pm.expect(pm.response.text()).to.be.equal(\"RUNNING\"); ",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/state",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "Test the GET /state endpoint. No auth needed."
+			},
+			"response": []
+		},
+		{
+			"name": "GET /request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Content-Type is text/plain\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/plain\");",
+							"});",
+							"pm.test(\"Response body has Service 1\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Service 1 Info\"); ",
+							"});",
+							"pm.test(\"Response body has Service 2\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Service 2 Info\"); ",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/request",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"request"
+					]
+				},
+				"description": "Test the GET /request endpoint. No auth needed."
+			},
+			"response": []
+		},
+		{
+			"name": "GET /run-log",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Content-Type is text/plain\", function () {",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"text/plain\");",
+							"});",
+							"pm.test(\"Response body is not empty\", function () {",
+							"    pm.expect(pm.response.text()).to.not.be.empty;",
+							"});",
+							"pm.test(\"Each line matches the expected log format\", function () {",
+							"    const responseBody = pm.response.text();",
+							"    const logLines = responseBody.split(\"\\n\"); ",
+							"    // Regex format for something like",
+							"    // 2023-11-01T06.35:01.380Z: INIT->RUNNING",
+							"    const logLineRegex = /^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}\\.\\d{3}Z - \\w+ -> \\w+$/;",
+							"    logLines.forEach((line) => {",
+							"        pm.expect(line).to.match(logLineRegex); ",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/run-log",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"run-log"
+					]
+				},
+				"description": "Test the GET /run-log endpoint. No auth needed."
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /state - INIT (no JWT parsing)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"pm.test(\"Response is OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response set state to INIT\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"Global state set to INIT\"); ",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "username",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "INIT"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/state",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "Test the PUT /state endpoint with to INIT. Provide with username + password for credentials. After this request, JWT returned will NOT be used."
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /state - RUNNING (old token)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const getData = () => pm.response.json();",
+							"",
+							"pm.test(\"Response is forbidden\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});",
+							"pm.test(\"Response require login again\", function () {",
+							"    const data = getData();",
+							"    pm.expect(data.error).to.include(\"Invalid token\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwtToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "RUNNING"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/state",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "Test the PUT /state endpoint with to PAUSED. Auth with the OLD token (got invalidated after new INIT)."
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /state - SHUTDOWN",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response is OK\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response SHUTDOWN services\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"SHUTDOWN\"); ",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "username",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "SHUTDOWN"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/state",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"state"
+					]
+				},
+				"description": "This test is to validate the response time. This Snippet is also available on the right sidebar under `Response time is less than 200ms`."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

@@ -7,20 +7,21 @@ build:
   stage: build
   script:
     - echo "Building the application..."
-    - which docker
-    - docker compose build
+    - docker compose build --no-cache
 
 test:
   stage: test
   script:
-    - echo "Running tests..."
-    # Add your test execution script here
+    - echo "Compose up for running tests..."
+    - docker compose up -d
+    - cd test
+    - npm install -g newman
+    - newman run test.json -e environment.json
+    - echo "Compose down after running tests..."
+    - docker compose down
 
 deploy:
   stage: deploy
   script:
     - echo "Deploying the application..."
-    - which docker
-    - pwd
-    - ls -la nginx/
     - docker compose up -d

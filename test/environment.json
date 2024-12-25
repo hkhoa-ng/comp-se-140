@@ -1,0 +1,21 @@
+{
+  "id": "ce7fb0b5-617a-4f8c-ae60-0244cb2b9ba1",
+  "name": "API Test",
+  "values": [
+    {
+      "key": "jwtToken",
+      "value": "none",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8197",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2024-12-25T16:56:12.044Z",
+  "_postman_exported_using": "Postman/11.23.3"
+}

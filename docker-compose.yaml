@@ -11,6 +11,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     user: root
 
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
   service2:
     build: ./service2
     networks:
@@ -20,6 +27,7 @@ services:
     image: nginx:latest
     ports:
       - "8198:8198"
+      - "8197:8197"
     depends_on:
       - service1
     volumes:

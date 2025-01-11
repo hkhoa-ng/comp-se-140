@@ -101,6 +101,7 @@ app.put("/state", authenticateMiddleware, async (req, res) => {
     // Normal response
     res.send(`Global state set to ${newState}`);
   } catch (error) {
+    console.error("Could not update global state: ", error);
     res.status(500).send("Could not update global state");
   }
 });
@@ -117,6 +118,7 @@ app.get("/run-log", async (_, res) => {
     }
     res.send(runLog.join("\n"));
   } catch (error) {
+    console.error("Could not get run log: ", error);
     res.status(500).send("Could not get run log");
   }
 });

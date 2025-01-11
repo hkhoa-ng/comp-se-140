@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-const Redis = require("ioredis");
 // We use redis to store the secret key. When the service starts, it will create a unique key and store it in redis. This key will be used to sign the JWT tokens. When state is changed to INIT, a new key will be generated and stored in redis. This will invalidate all the previous tokens.
 const { CONFIG, redis } = require("./utils");
 

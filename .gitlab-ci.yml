@@ -1,5 +1,6 @@
 stages:
   - build
+  - lint
   - test
   - deploy
 
@@ -8,6 +9,24 @@ build:
   script:
     - echo "Building the application..."
     - docker compose build --no-cache
+
+pylint:
+  stage: lint
+  image: python:latest
+  before_script:
+    - cd service2
+    - pip install pylint
+  script:
+    - pylint **/*.py
+
+eslint:
+  stage: lint
+  image: node:latest
+  before_script:
+    - cd service1
+    - npm install
+  script:
+    - npx eslint -c eslint.config.mjs  *.js
 
 test:
   stage: test

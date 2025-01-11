@@ -14,7 +14,7 @@ test:
   script:
     - echo "Compose up for running tests..."
     - docker compose up -d
-    - cd test
+    - cd tests
     - npm install -g newman
     - newman run test.json -e environment.json
     - echo "Compose down after running tests..."

@@ -15,7 +15,7 @@ pylint:
   image: python:latest
   before_script:
     - cd service2
-    - pip install pylint
+    - which pylint
   script:
     - pylint **/*.py
 

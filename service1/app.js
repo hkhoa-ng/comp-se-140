@@ -138,10 +138,6 @@ app.get("/request", async function (_, res) {
 });
 
 // Expose the app on port 8199
-app.listen(8199, function () {
-  const DEBUG_MESSAGE = "fix SHUTDOWN";
+app.listen(8199, "0.0.0.0", function () {
   console.log("Service 1 is listening on port 8199!");
-  console.log(
-    "Writing this to debug if it's built differently: " + DEBUG_MESSAGE
-  );
 });

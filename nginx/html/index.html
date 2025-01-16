@@ -21,7 +21,7 @@
         .getElementById("request-btn")
         .addEventListener("click", async () => {
           try {
-            const response = await fetch("http://localhost:8198/api", {
+            const response = await fetch("http://86.50.169.142:8198/api", {
               method: "GET",
               credentials: "include",
             });
@@ -45,7 +45,7 @@
         .getElementById("stop-btn")
         .addEventListener("click", async () => {
           try {
-            const response = await fetch("http://localhost:8198/stop", {
+            const response = await fetch("http://86.50.169.142:8198/stop", {
               method: "GET",
               credentials: "include",
             });
